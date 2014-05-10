@@ -16,24 +16,24 @@
 #include <qapplication.h>
 
 #ifndef TPM101_v02
-# define TPM101_MEASURE         0xB8DF /* Pv    Измеренное значение входной величины ( float24 ) */
-# define TPM101_DESIRED         0x9107 /* Sp    Уставка регулятора ( float24 ) */
-# define TPM101_UP              0xAF90 /* r-S   Запуск/остановка регулирования  1/0 ( u8 )*/
-# define TPM101_OUT             0x35E8 /* o     Рассчитанное значение выходной мощности регулятора в %. ( float24 ) */
-# define TPM101_OUTPUT          0x441A /* mvSt  Значение выходной мощности в состоянии "остановка регулирования". ( float24 ) */
+# define TPM101_MEASURE         0xB8DF /* Pv    пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_DESIRED         0x9107 /* Sp    пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_UP              0xAF90 /* r-S   пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  1/0 ( u8 )*/
+# define TPM101_OUT             0x35E8 /* o     пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ %. ( float24 ) */
+# define TPM101_OUTPUT          0x441A /* mvSt  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ". ( float24 ) */
 
-# define TPM101_KP       	0xFCFC /* p     Зона пропорциональности ПИД-регулятора ( float24 ) */
-# define TPM101_KI       	0x5D6B /* i     Интегральная постоянная ПИД-регулятора. ( float24 ) */
-# define TPM101_KD       	0x2DFA /* d     Дифференциальная постоянная ПИД-регулятора. ( float24 ) */
-# define TPM101_DAC       	0x8DF6 /* o-Ed  Устанавливаемое значение выходной мощности ( float24 ) */
-# define TPM101_MANUAL    	0xD37D /* mdSt  Состояние выхода в режиме "остановка регулирования". ( u9 ) */
-# define TPM101_SENSOR          0x932D /* IN-T  Тип входного датчика или сигнала (наш датчик  номер  9, характиристика= 50M, r428) */
-# define TPM101_MIN_MEASURE     0xB040 /* IN-L* Нижняя граница диапазона измерения ( float24 ) */
-# define TPM101_MAX_MEASURE     0x665D /* IN-H* Верхняя граница диапазона измерения ( float24 ) */
-# define TPM101_MIN_DESIRED     0xABD3 /* SL-L* Нижняя граница задания уставки ( float24 ) */
-# define TPM101_MAX_DESIRED     0x7DCE /* SL-H* Верхняя граница задания уставки ( float24 ) */
-# define TPM101_B_MEASURE       0x39E8 /* SH*   Коррекция измерения "сдвиг". ( float24 ) */
-# define TPM101_K_MEASURE       0x39E8 /* KU*   Коррекция измерения "сдвиг". ( float24 ) */
+# define TPM101_KP       	0xFCFC /* p     пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_KI       	0x5D6B /* i     пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. ( float24 ) */
+# define TPM101_KD       	0x2DFA /* d     пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. ( float24 ) */
+# define TPM101_DAC       	0x8DF6 /* o-Ed  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_MANUAL    	0xD37D /* mdSt  пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ". ( u9 ) */
+# define TPM101_SENSOR          0x932D /* IN-T  пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ  пїЅпїЅпїЅпїЅпїЅ  9, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ= 50M, r428) */
+# define TPM101_MIN_MEASURE     0xB040 /* IN-L* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_MAX_MEASURE     0x665D /* IN-H* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_MIN_DESIRED     0xABD3 /* SL-L* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_MAX_DESIRED     0x7DCE /* SL-H* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ( float24 ) */
+# define TPM101_B_MEASURE       0x39E8 /* SH*   пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅ". ( float24 ) */
+# define TPM101_K_MEASURE       0x39E8 /* KU*   пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅ". ( float24 ) */
 #endif
 
 #define SEC_MS	1000
@@ -58,6 +58,13 @@ protected:
 private:
     // magic begin there
     QList<QPoint> m_plotPoints;
+    float get_level(QList<QPoint> points);
+    float get_module(float value);
+    int get_sign(float value);
+    float get_error(QList<QPoint> points, float level);
+    float get_amplitude(QList<QPoint> points);
+    float get_period(QList<QPoint> points, float level);
+    QList<QPoint> get_extremum(QList<QPoint> points);
 
     Ui::industrial_control *ui;
     QTimer *timer_1;
@@ -87,7 +94,7 @@ private:
     int rs232_init(QString port_name);
     void set_enable(bool v);
     void rs232_release(void);
-    void log_add_str( QString s );    
+    void log_add_str( QString s );
     unsigned short mb_crc16( unsigned char *buf, unsigned short len );
     int rs232_rx(unsigned char *rx_buf, unsigned int nbytes);
     int rs232_tx(unsigned char *tx_buf, unsigned int tx_len);
@@ -108,7 +115,7 @@ private:
     int tx_oven_req(struct rs485_packet *pf);
     int rx_oven_frame(struct rs485_packet *pf);
     void log_oven_err(struct rs485_packet *pf);
-	
+
 private slots:
     int interface_start(void);
     void interface_stop(void);

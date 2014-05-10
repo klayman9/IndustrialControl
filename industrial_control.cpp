@@ -31,8 +31,8 @@ using namespace std;
 
 #define UINT32_SWAP(x) (((x<<24)&0xff000000 ) | ((x<<8)&0x00ff0000) | ((x >>8)&0x0000ff00) | ((x>>24)&0x000000ff))
 
-#define MAX_ASCII_FRAME_SIZE 45 /* максимальная длина ASCII-пакета включая маркеры и символ '\0'  */
-#define MAX_FRAME_SIZE 21 /* максимальная длина пакета согласно протоколу ОВЕН */
+#define MAX_ASCII_FRAME_SIZE 45 /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ ASCII-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ '\0'  */
+#define MAX_FRAME_SIZE 21 /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 
 struct rs485_packet {
 	unsigned short address;
@@ -45,10 +45,10 @@ struct rs485_packet {
 	int crc_ok;
 };
 
-static QString _ERROR_TEXT=QString::fromLocal8Bit("Ошибка:");
-static QString _EXIT_TEXT=QString::fromLocal8Bit("Одобрение");
-const char *_PLC_EXCHANGE_TXT= "опрос_TPM101>";
-static QPalette pal_0;                                         //палитра
+static QString _ERROR_TEXT=QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅ:");
+static QString _EXIT_TEXT=QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+const char *_PLC_EXCHANGE_TXT= "пїЅпїЅпїЅпїЅпїЅ_TPM101>";
+static QPalette pal_0;                                         //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 static unsigned char tx_buf[TXBUF_SIZE];
 static DataPlot *plot, *plot_screen;
 //static QRect main_win_geometry, group_0_geometry, group_1_geometry, group_2_geometry, group_3_geometry, group_4_geometry, group_5_geometry, group_6_geometry;
@@ -64,47 +64,47 @@ QTime operator - ( const QTime & t1, const QTime & t2 )
                      diff % SEC_MS);
 }
 
-/*=====логирование адресов============================================================================================*/
+/*=====пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ============================================================================================*/
 void industrial_control::log_add_str( QString s )
 {qDebug() << s.toLocal8Bit();
  return;
 }
-/*=====сброс порта====================================================================================================*/
+/*=====пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ====================================================================================================*/
 void industrial_control::rs232_release(void)
 {char str[256];
  unsigned int err_code;
- if((rs232 != NULL) &&  (rs232 != INVALID_HANDLE_VALUE)) //если есть указатель-адрес порта
-    if (!CloseHandle(rs232))                             //порт не закрыт
-        {err_code= GetLastError();  
-         sprintf(str,"Kernel Fault:Unable close port handle. Сведения:( %x)",  err_code); 
+ if((rs232 != NULL) &&  (rs232 != INVALID_HANDLE_VALUE)) //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    if (!CloseHandle(rs232))                             //пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        {err_code= GetLastError();
+         sprintf(str,"Kernel Fault:Unable close port handle. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:( %x)",  err_code);
          QMessageBox::critical( 0, _ERROR_TEXT, QString::fromLocal8Bit(str), _EXIT_TEXT );
         }
  rs232 = NULL;
  return;
 }
-/*=====инициализация порта============================================================================================*/
+/*=====пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ============================================================================================*/
 int industrial_control::rs232_init(QString port_name)
 {
  unsigned int err_code;
  char str[256];
- COMMTIMEOUTS CommTimeouts; // объявление переменной структуры, тип: LPCOMMTIMEOUTS для прерывания из WINAPI
- DCB PortDCB;               // объявление переменной структуры, тип: LPDCB для обмена пакетами из WINAPI
+ COMMTIMEOUTS CommTimeouts; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ: LPCOMMTIMEOUTS пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ WINAPI
+ DCB PortDCB;               // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ: LPDCB пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ WINAPI
 
- rs232_release();           // сброс указателя-адреса порта
+ rs232_release();           // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 #ifdef __WINDOWS__
- // создаем указатель порта с атрибутами (имя порта, режим:чтение/запись,открыть)
+ // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ:пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ,пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
  rs232 = CreateFile((TCHAR*)port_name.utf16(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
- // если порт не получил адрес то ошибка
+ // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
   if ( rs232 == INVALID_HANDLE_VALUE )
-    {err_code= GetLastError();  
-     sprintf(str,"Открытие порта com_%d неуспешно. Сведения:( %x)", ui->rs232_ch->value(), err_code);
+    {err_code= GetLastError();
+     sprintf(str,"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ com_%d пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:( %x)", ui->rs232_ch->value(), err_code);
      QMessageBox::critical( 0, _ERROR_TEXT, QString::fromLocal8Bit(str), _EXIT_TEXT );
      return 0;
     }
- // заполняем структуру DCB тип: LPDCB для обмена пакетами из WINAPI
-  PortDCB.DCBlength = sizeof (DCB);     // размер структуры(DCB)
+ // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DCB пїЅпїЅпїЅ: LPDCB пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ WINAPI
+  PortDCB.DCBlength = sizeof (DCB);     // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ(DCB)
   GetCommState (rs232, &PortDCB);
-  PortDCB.BaudRate = 115200;            // Частота обмена
+  PortDCB.BaudRate = 115200;            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
   PortDCB.fBinary = FALSE;              // Binary mode, no EOF check
   PortDCB.fParity = FALSE;              // Enable parity checking
   PortDCB.fOutxCtsFlow = FALSE;         // No CTS output flow control
@@ -126,11 +126,11 @@ int industrial_control::rs232_init(QString port_name)
   PortDCB.XonChar=0x11;                 // Tx and Rx X-ON character
   PortDCB.XoffChar=0x13;                // Tx and Rx X-OFF character
 
-  if (!SetCommState (rs232, &PortDCB))  // устанавливаем параметры порта и проверяем на ошибку
+  if (!SetCommState (rs232, &PortDCB))  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     {err_code= GetLastError();
-     sprintf(str,"ошибка (Не устанавливается DCB) %x", err_code);
+     sprintf(str,"пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DCB) %x", err_code);
      QMessageBox::critical( 0, _ERROR_TEXT, QString::fromLocal8Bit(str), _EXIT_TEXT );
-     rs232_release(); // сброс указателя на порт
+     rs232_release(); // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
      return 0;
     }
 
@@ -143,7 +143,7 @@ int industrial_control::rs232_init(QString port_name)
 
   if (!SetCommTimeouts (rs232, &CommTimeouts))
     {err_code= GetLastError();
-     sprintf(str,"ошибка (Не устанавливается DCB) Сведения:( %x)", err_code);
+     sprintf(str,"пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DCB) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:( %x)", err_code);
      QMessageBox::critical( 0, _ERROR_TEXT, QString::fromLocal8Bit(str), _EXIT_TEXT );
      rs232_release();
      return 0;
@@ -154,7 +154,7 @@ int industrial_control::rs232_init(QString port_name)
 #endif
   return 1;
 }
-/*=====посылка пакета=================================================================================================*/
+/*=====пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ=================================================================================================*/
 int industrial_control::rs232_tx(unsigned char *tx_buf, unsigned int tx_len)
 {unsigned long v;
  unsigned long err;
@@ -164,7 +164,7 @@ int industrial_control::rs232_tx(unsigned char *tx_buf, unsigned int tx_len)
   unsigned int j;
   tx_buf[tx_len]= 0;
  // sprintf(s0, "tx_%02x> [%s]: [ ", schedule_tm, tx_buf);
-sprintf(s0, "tx_%02x>[", schedule_tm); 
+sprintf(s0, "tx_%02x>[", schedule_tm);
   for(j=0; j < tx_len; j++)
     {sprintf(s1, "%02x ", tx_buf[j]);
 	 strcat(s0, s1);
@@ -176,10 +176,10 @@ sprintf(s0, "tx_%02x>[", schedule_tm);
  WriteFile (rs232, tx_buf, tx_len, &v, NULL);
  if (v != tx_len)
     {char str[256];
-     sprintf(str, "- передача пакета %s в TPM101 неуспешна ", tx_buf);
+     sprintf(str, "- пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ %s пїЅ TPM101 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ", tx_buf);
      if (!ClearCommError(rs232, &err, &comStat))
         {log_add_str(QString::fromLocal8Bit(str)); rs232_tx_err++;return 0;}
-     if(err & CE_DNS) strcat(str," fDNS-error; "); 
+     if(err & CE_DNS) strcat(str," fDNS-error; ");
      if(err & CE_IOE) strcat(str," fIOES-error; ");
      if(err & CE_OOP) strcat(str," fOOP-error; ");
      if(err & CE_PTO) strcat(str," fPTO-error; ");
@@ -195,9 +195,9 @@ sprintf(s0, "tx_%02x>[", schedule_tm);
      return 0;
     }
  rs232_tx_ok++;
- return 1;    
+ return 1;
 }
-/*=====получение ответа===============================================================================================*/
+/*=====пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ===============================================================================================*/
 int industrial_control::rs232_rx(unsigned char *rx_buf, unsigned int nbytes)
 {unsigned long n;
  unsigned long err;
@@ -205,10 +205,10 @@ int industrial_control::rs232_rx(unsigned char *rx_buf, unsigned int nbytes)
  ClearCommError(rs232, &err, &comStat);
  if(err)
     {return 0;}
- ReadFile (rs232, rx_buf, nbytes, &n, 0);  /* чтение данных полученых с ком порта */
- if(!n) 
+ ReadFile (rs232, rx_buf, nbytes, &n, 0);  /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
+ if(!n)
     {char str[256];
-     sprintf(str, "%s schedule=0x%x: нет ответа от контроллера.", _PLC_EXCHANGE_TXT, schedule_tm);
+     sprintf(str, "%s schedule=0x%x: пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.", _PLC_EXCHANGE_TXT, schedule_tm);
      log_add_str(QString::fromLocal8Bit(str));
      memset(tx_buf, 0, TXBUF_SIZE);
      return 0;
@@ -220,19 +220,19 @@ int industrial_control::rs232_rx(unsigned char *rx_buf, unsigned int nbytes)
   unsigned int j;
   rx_buf[n]= 0;
 //  sprintf(s0, "rx_%02x> [%s] : [ ", schedule_tm, rx_buf);
-sprintf(s0, "rx_%02x>[", schedule_tm); 
+sprintf(s0, "rx_%02x>[", schedule_tm);
   for(j=0; j < n; j++)
     {sprintf(s1, "%02x ", rx_buf[j]);
 	 strcat(s0, s1);
 	}
- strcat(s0, "]");	
+ strcat(s0, "]");
  qDebug() << s0;
  }
 #endif
  return n;
 }
-/*=====СRC============================================================================================================*/
-unsigned short industrial_control::owenCRC16(unsigned char* packet, int length) /* расчет контрольной суммы */
+/*=====пїЅRC============================================================================================================*/
+unsigned short industrial_control::owenCRC16(unsigned char* packet, int length) /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 {int i, j;
  unsigned short crc;
  if(packet == NULL)
@@ -252,10 +252,10 @@ unsigned short industrial_control::owenCRC16(unsigned char* packet, int length) 
  return crc;
 }
 /*====================================================================================================================*/
-/* Быстрый алгоритм расчета контрольной суммы с использованием таблицы */
-/* таблица */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 unsigned short fastCRC16Table[256];
-/* инициализация таблицы*/
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*/
 void industrial_control::initFastCRC16Table(void)
 {unsigned short i, j;
  unsigned short crc;
@@ -273,7 +273,7 @@ void industrial_control::initFastCRC16Table(void)
 	 fastCRC16Table[i] = crc;
 	}
 }
-/* быстрый расчет контрольной суммы */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 unsigned short industrial_control::owenFastCRC16(unsigned char* packet, int length)
 {int i;
  unsigned short crc;
@@ -290,12 +290,12 @@ int industrial_control::packFrameToAscii(unsigned char* frame, int frame_size, u
  char str[256];
  if((frameAscii == NULL) || (frame== NULL))
     {sprintf(str,"%s> [%d] tm=0x%x error",  __FUNCTION__, __LINE__, schedule_tm);
-	 log_add_str(QString::fromLocal8Bit( str));		
+	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
 	}
  if(max_ascii_frame_size < (frame_size*2+2+1))
     {sprintf(str,"%s> [%d] tm=0x%x error (ascii_frame_size= %d)",  __FUNCTION__, __LINE__,  schedule_tm, frame_size*2+2+1);
-	 log_add_str(QString::fromLocal8Bit( str));			
+	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
 	}
  frameAscii[0] = '#';
@@ -315,7 +315,7 @@ int industrial_control::unpackAsciiFrame(unsigned char* frameAscii, int frameAsc
 	return 0;
  if(frameAscii[0] != '#' || frameAscii[frameAsciiSize - 1] != 0xd)
     {sprintf(str,"%s> [%d] tm=0x%x error rxbuf[%d]= 0x%02x",  __FUNCTION__, __LINE__, schedule_tm, frameAsciiSize - 1, frameAscii[frameAsciiSize - 1]);
-	 log_add_str(QString::fromLocal8Bit( str));		
+	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
 	}
  if((frameAsciiSize & 1) != 0)
@@ -325,13 +325,13 @@ int industrial_control::unpackAsciiFrame(unsigned char* frameAscii, int frameAsc
 	}
  if(frame_size < (frameAsciiSize - 2) / 2)
     {sprintf(str,"%s> [%d] tm=0x%x error",  __FUNCTION__, __LINE__, schedule_tm);
-	 log_add_str(QString::fromLocal8Bit( str));		
+	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
 	}
  for (i = 1, j = 0; i < frameAsciiSize-2;  i += 2, ++j)
 	{if('G' > frameAscii[i]&&frameAscii[i] <= 'V')
 		{sprintf(str,"%s> [%d] tm=0x%x error",  __FUNCTION__, __LINE__, schedule_tm);
-		 log_add_str(QString::fromLocal8Bit( str));		
+		 log_add_str(QString::fromLocal8Bit( str));
 		 return 0;
 		}
 	 if('G' > frameAscii[i+1]&&frameAscii[i+1] <= 'V');
@@ -360,10 +360,10 @@ int industrial_control::packFrame(struct rs485_packet* pf, unsigned char* frame,
  if((pf == NULL) || (frame== NULL))
 	return 0;
  if(max_frame_size < 6)
-	return 0; 
+	return 0;
  if(pf->dataSize > 15)
- 	return 0; 
-	
+ 	return 0;
+
  if (pf->addrLen == 8)
 	{frame[0] = pf->address & 0xff;
 	 frame[1] = 0;
@@ -392,15 +392,15 @@ int industrial_control::unpackFrame(unsigned char* frame, int frame_size, struct
  char str[256];
  if((pf == NULL) || (frame== NULL))
     {sprintf(str,"%s> [%d] tm=0x%x error",  __FUNCTION__, __LINE__, schedule_tm);
-	 log_add_str(QString::fromLocal8Bit( str));		
+	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
 	}
  if(frame_size < 6)
     {sprintf(str,"%s> [%d] tm=0x%x error",  __FUNCTION__, __LINE__, schedule_tm);
-	 log_add_str(QString::fromLocal8Bit( str));		
+	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
 	}
- /* ВНИМАНИЕ: невозможно отличить 11-битые адреса кратные 8 от 8-битных */
+ /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 11-пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 8 пїЅпїЅ 8-пїЅпїЅпїЅпїЅпїЅпїЅ */
  if (frame[1] & 0xe0)
 	{pf->address = (frame[0] << 3) | (frame[1] >> 5);
 	 pf->addrLen = 11;
@@ -415,7 +415,7 @@ int industrial_control::unpackFrame(unsigned char* frame, int frame_size, struct
  if (dataSize)
         {if(dataSize != (frame_size - 6))
 			{sprintf(str,"%s> [%d] tm=0x%x error (dataSize= %d/%d)",  __FUNCTION__, __LINE__, schedule_tm, dataSize, frame_size- 6);
-			 log_add_str(QString::fromLocal8Bit( str));		
+			 log_add_str(QString::fromLocal8Bit( str));
 			 return 0;
 			}
 	 pf->dataSize = dataSize;
@@ -451,21 +451,21 @@ int industrial_control::unpackIEEE32(unsigned char* data, int dataSize, float* v
 	return 0;
  *(unsigned long*)v = UINT32_SWAP(*(unsigned long*)data);
  *time = -1;
- if (dataSize == 6)  /* если есть время измерения */
+ if (dataSize == 6)  /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	{*time = (((data[4] & 0xff)<< 8) | (data[5] & 0xff)) & 0xffff;}
  return 1;
 }
 /*====================================================================================================================*/
 /* unpackBCD()
-	Разбор поля данных для параметров DCNT и DSPD прибора СИ8.
-		value - значение счетчика
-		point - позиция десятичной точки (задается параметром F в приборе)*/
+	пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DCNT пїЅ DSPD пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ8.
+		value - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		point - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ F пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)*/
 int industrial_control::unpackBCD(unsigned char* data, int dataSize, int* v, int *point)
 {int i = 0;
  int val, sign;
- 
+
  if((data == NULL) || (v == NULL) || (point == NULL) || (dataSize != 4))
-	return 0;	
+	return 0;
  sign = data[0] & 0x80 ? -1 : 1;
  *point = (data[0] & 0x70) >> 4;
  val = data[0] & 0x0F;
@@ -478,10 +478,10 @@ int industrial_control::unpackBCD(unsigned char* data, int dataSize, int* v, int
 	*v = sign * val;
  return 1;
 }
-/* преобразование локального идентификатора в двоичный вид 
-		name - локальный идентификатор
-		length - длина идентификатора
-		id - идентификатор в двоичном виде */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+		name - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		length - пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		id - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ */
 int industrial_control::name2id(char* name, int length, unsigned char id[4])
 {int i, j;
  if((name == NULL) || (length == 0))
@@ -491,66 +491,66 @@ int industrial_control::name2id(char* name, int length, unsigned char id[4])
 	 char c = name[i];
 	 if ('0' <= c && c <= '9')
 		{b = c - '0';}
-	 else 
+	 else
 		if ('a' <= c && c <= 'z')
 			{b = 10 + c - 'a';}
 		else
 			if ('A' <= c && c <= 'Z')
 				{b = 10 + c - 'A';}
-			else 
+			else
 				if ('-' == c)
 					{b = 10 + 26 + 0;}
-				else 
+				else
 					if ('_' == c)
 						{b = 10 + 26 + 1;}
-					else 
+					else
 						if ('/' == c)
 							{b = 10 + 26 + 2;}
-						else 
+						else
 							if ('.' == c)
 								{if(i <= 0)
-									return 0; /* модификатор не может быть первым символом */
-								 if(name[i-1] == '.') /* не может быть двух модификаторов подряд */
+									return 0; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+								 if(name[i-1] == '.') /* пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 									return 0;
 								 ++id[j - 1];
 								 continue;
 								}
-							else 
+							else
 								if (' ' == c)
-									{break;} /* пробел может находиться только в конце имени */
+									{break;} /* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 								else
-									return 0; /* недопустимый символ */
+									return 0; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
 	 id[j++] = b*2;
 	}
  if (j == 4)
-	{/* заполнены все байты идентификатора */
-	 if(i != length); /* обработаны все символы имени */
+	{/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+	 if(i != length); /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 		return 0;
 	}
  else
-	{/* встречен первый пробел или обработаны все символы имени */
+	{/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ */
 	 for (; i < length; ++i)
-		{if(name[i] != ' '); /* после пробела могут находиться только пробелы */
+		{if(name[i] != ' '); /* пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 			return 0;
 		 if(j >= 4);
 			return 0;
 		 id[j++] = 78;
 		}
-	 /* дополняем пробелами до четырех символов */
+	 /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	 for (; j < 4; ++j)
 		id[j] = 78;
 	}
  return 1;
 }
 /*====================================================================================================================*/
-/* свертка локального идентификатора */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 unsigned short industrial_control::id2hash(unsigned char id[4])
 {int i, j;
  unsigned short hash;
  hash = 0;
  for (i = 0; i < 4; ++i)
 	{unsigned char b = id[i];
-	 b <<= 1; /* используются только младшие 7 бит */
+	 b <<= 1; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 7 пїЅпїЅпїЅ */
 	 for (j = 0; j < 7; ++j, b <<= 1)
 		{if ((b ^ (hash >> 8)) & 0x80)
 			{hash <<= 1;
@@ -568,47 +568,47 @@ int industrial_control::tx_oven_req(struct rs485_packet *pf)
  unsigned char frame[MAX_FRAME_SIZE];
  unsigned char frameAscii[MAX_ASCII_FRAME_SIZE];
  int frame_size;
- pf->address = 16;	/* создание запроса для параметра Pv */
+ pf->address = 16;	/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Pv */
  pf->addrLen = 8;
  memset(frame, 0, MAX_FRAME_SIZE);
  if(!(frame_size = packFrame(pf, frame, MAX_FRAME_SIZE)))
-	{sprintf(str,"%s> tm=0x%x packFrame() error",  __FUNCTION__, schedule_tm); 
-	 log_add_str(QString::fromLocal8Bit( str));
-	 return 0;					 
-	}
- sprintf(str,"%s> tm= 0x%x ",  __FUNCTION__, schedule_tm); 
- log_add_str(QString::fromLocal8Bit( str));					
- if(!packFrameToAscii(frame, frame_size, frameAscii, MAX_ASCII_FRAME_SIZE))
-	{sprintf(str,"%s> tm=0x%x packFrameToAscii() error",  __FUNCTION__, schedule_tm); 
+	{sprintf(str,"%s> tm=0x%x packFrame() error",  __FUNCTION__, schedule_tm);
 	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
-	}				 
+	}
+ sprintf(str,"%s> tm= 0x%x ",  __FUNCTION__, schedule_tm);
+ log_add_str(QString::fromLocal8Bit( str));
+ if(!packFrameToAscii(frame, frame_size, frameAscii, MAX_ASCII_FRAME_SIZE))
+	{sprintf(str,"%s> tm=0x%x packFrameToAscii() error",  __FUNCTION__, schedule_tm);
+	 log_add_str(QString::fromLocal8Bit( str));
+	 return 0;
+	}
  if(!rs232_tx(frameAscii, frame_size*2+2))
 	return 0;
- return 1; 
+ return 1;
 }
 /*====================================================================================================================*/
 int industrial_control::rx_oven_frame(struct rs485_packet *pf)
 {unsigned char rx_buf[MAX_ASCII_FRAME_SIZE];
  unsigned char frame[MAX_FRAME_SIZE];
- char str[256]; 
+ char str[256];
  int n;
- sprintf(str,"%s> tm= 0x%x ",  __FUNCTION__, schedule_tm); 
- log_add_str(QString::fromLocal8Bit( str));		 
+ sprintf(str,"%s> tm= 0x%x ",  __FUNCTION__, schedule_tm);
+ log_add_str(QString::fromLocal8Bit( str));
  memset(frame, 0, MAX_FRAME_SIZE);
  if( (n= rs232_rx(rx_buf, MAX_ASCII_FRAME_SIZE)) <= 0 )
 	return 0;
  n--;
  if(!unpackAsciiFrame(rx_buf, n, frame, MAX_ASCII_FRAME_SIZE))
- 	{sprintf(str,"%s> tm=0x%x unpackAsciiFrame() error",  __FUNCTION__, schedule_tm); 
+ 	{sprintf(str,"%s> tm=0x%x unpackAsciiFrame() error",  __FUNCTION__, schedule_tm);
 	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
-	}	
+	}
  if(!unpackFrame(frame, (n - 2)/2, pf))
- 	{sprintf(str,"%s> tm=0x%x unpackFrame() error",  __FUNCTION__, schedule_tm); 
+ 	{sprintf(str,"%s> tm=0x%x unpackFrame() error",  __FUNCTION__, schedule_tm);
 	 log_add_str(QString::fromLocal8Bit( str));
 	 return 0;
-	}	
+	}
  return 1;
 }
 /*====================================================================================================================*/
@@ -639,8 +639,8 @@ void industrial_control::set_auto(void)
 }
 /*====================================================================================================================*/
 void industrial_control::set_out(void)
-{if(!ui->heater_manual->isChecked())           /* если регулирование остановлено */
-    {QMessageBox::critical( 0, _ERROR_TEXT, QString::fromLocal8Bit("Задание выходной мощности допустимо только в ручном режиме регулирования"), _EXIT_TEXT );}
+{if(!ui->heater_manual->isChecked())           /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    {QMessageBox::critical( 0, _ERROR_TEXT, QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"), _EXIT_TEXT );}
  schedule_tm= 0x60;
  return;
 }
@@ -659,13 +659,13 @@ int industrial_control::scheduler(void)
  schedule_tm++;
  memset(&pf, 0, sizeof(struct rs485_packet));
  switch(schedule_tm)
-    {case  0x0:  /*команда в ТРМ: выдать измеренное значение входной величины */
-  /* { цикл опроса параметров регулирования */
+    {case  0x0:  /*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+  /* { пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
                 pf.dataSize = 0; pf.hash = TPM101_MEASURE; pf.request = 1;
 				if(!tx_oven_req(&pf))
 					{schedule_tm= -1;}
                 break;
-     case  0x1:  /*считываем измеренное значение входной величины */
+     case  0x1:  /*пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 				{static int cnt=0;
                 if(!rx_oven_frame(&pf))
 					{schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red)); break;}
@@ -679,7 +679,7 @@ int industrial_control::scheduler(void)
 					}
                                 param=v;
                                 sprintf(str,"%5.1f", v);                         // 12345.6
-                                ui->lcd_t->display(QString::fromLocal8Bit(str)); //перевод в кириллицу
+                                ui->lcd_t->display(QString::fromLocal8Bit(str)); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                                 sprintf(str, "T=%f", v);                         // T=12345.67890
                                 //ui->listWidget->insertItem(0,str);
 
@@ -696,16 +696,16 @@ int industrial_control::scheduler(void)
 				ui->led_rs232->setPalette(QPalette(Qt::green));
                 break;
 				}
-     case  0x2:  /* Рассчитанное значение выходной мощности регулятора в % */
+     case  0x2:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ % */
                 pf.dataSize = 0; pf.hash = TPM101_OUT; pf.request = 1;
 				if(!tx_oven_req(&pf))
 					{schedule_tm= -1;ui->led_rs232->setPalette(QPalette(Qt::red));}
                 break;
-     case  0x3:  /* считываем измеренное значение входной величины */
+     case  0x3:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
                 if(!rx_oven_frame(&pf))
 					{schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red)); break;}
 				if(pf.hash != TPM101_OUT)
-					{log_oven_err(&pf); ui->led_rs232->setPalette(QPalette(Qt::red)); break;}					
+					{log_oven_err(&pf); ui->led_rs232->setPalette(QPalette(Qt::red)); break;}
 				if(!unpackFloat24(pf.data, pf.dataSize, &v))
 				 	{sprintf(str,"%s> tm=0x%x unpackFloat24() error",  __FUNCTION__, schedule_tm);
 					 log_add_str(QString::fromLocal8Bit( str));
@@ -721,16 +721,16 @@ int industrial_control::scheduler(void)
 				sprintf(str, "out=%f", v);
 				log_add_str(QString::fromLocal8Bit(str));
                 break;
-     case 0x04:  /* команда в ТРМ: считать режим регулирования */
-                pf.dataSize= 0; pf.hash= TPM101_UP; pf.request= 1; 
+     case 0x04:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+                pf.dataSize= 0; pf.hash= TPM101_UP; pf.request= 1;
 				if(!tx_oven_req(&pf))
 					{schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red));}
                 break;
-     case 0x05:/* считываем режим регулирования */
+     case 0x05:/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
                 if(!rx_oven_frame(&pf))
 					{schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red)); break;}
 				if(pf.hash != TPM101_UP)
-					{log_oven_err(&pf); schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red)); break;}								
+					{log_oven_err(&pf); schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red)); break;}
 				if(*pf.data)
 					{ui->led_off->setPalette(pal_0);
 					 ui->led_manual->setPalette(pal_0);
@@ -738,11 +738,11 @@ int industrial_control::scheduler(void)
 					 ui->heater_productivity->setEnabled(0);
 					}
 				else
-					{if(ui->heater_off->isChecked()) 
+					{if(ui->heater_off->isChecked())
 						{ui->led_off->setPalette(QPalette(Qt::green));}
 					 else
 						{ui->led_off->setPalette(pal_0);}
-					 if(ui->heater_manual->isChecked()) 
+					 if(ui->heater_manual->isChecked())
 						{ui->led_manual->setPalette(QPalette(Qt::green));
 						 ui->heater_productivity->setEnabled(1);
 						}
@@ -751,29 +751,29 @@ int industrial_control::scheduler(void)
 						 ui->heater_productivity->setEnabled(0);
 						}
 					 ui->led_pid->setPalette(pal_0);
-					}		
+					}
 				sprintf(str,"%s> tm= 0x%02x; control mode= %d",  __FUNCTION__, schedule_tm, *pf.data);
 				log_add_str(QString::fromLocal8Bit( str));
                 schedule_tm= -1;
                 break;
-  /* } завершение цикла опроса параметров регулирования */
+  /* } пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
   /*==========================================================================*/
-	 case 0x11: /* команда в ТРМ: задать "уставку регулятора" */
+	 case 0x11: /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" */
 				rs232_rx((unsigned char *)str, 256);
                 pf.dataSize = 3; pf.hash = TPM101_DESIRED; pf.request = 0;
 				pack_float24(pf.data, (float) ui->desired_t->value());
 				if(!tx_oven_req(&pf))
 					{schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red));}
                 break;
-     case 0x12:  /* считываем код выполнения команды */
+     case 0x12:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
                 if(!rx_oven_frame(&pf))
 					{schedule_tm= -1; ui->led_rs232->setPalette(QPalette(Qt::red)); break;}
 				if(pf.hash != TPM101_DESIRED)
-					{log_oven_err(&pf); ui->led_rs232->setPalette(QPalette(Qt::red));}						
+					{log_oven_err(&pf); ui->led_rs232->setPalette(QPalette(Qt::red));}
                 schedule_tm= -1;
                 break;
   /*==========================================================================*/
-     case 0x21: /* команда в ТРМ: задать зону пропорциональности ПИД-регулятора */
+     case 0x21: /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 				rs232_rx((unsigned char *)str, 256);
                 pf.dataSize = 3; pf.hash = TPM101_KP; pf.request = 0;
 				v= (ui->Kp->value() > 0)? (float)ui->Kp->value() : 1.0;
@@ -781,7 +781,7 @@ int industrial_control::scheduler(void)
 				if(v < 0.1)
 					v= 0.1;
 				if(v > 999.9)
-					v= 999.9;					
+					v= 999.9;
 				pack_float24(pf.data, v);
 				if(!tx_oven_req(&pf))
 					schedule_tm= -1;
@@ -793,7 +793,7 @@ int industrial_control::scheduler(void)
                 schedule_tm= -1;
                 break;
   /*==========================================================================*/
-     case 0x31:  /* команда в ТРМ: задать интегральную постоянную ПИД-регулятора */
+     case 0x31:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 				rs232_rx((unsigned char *)str, 256);				/*  flush rs232 rx_buffers */
                 pf.dataSize = 3; pf.hash = TPM101_KI; pf.request = 0;
 				v= (ui->Ki->value() > 0)? (float)ui->Ki->value() : 1.0;
@@ -801,7 +801,7 @@ int industrial_control::scheduler(void)
 				if(v < 0.1)
 					v= 0.1;
 				if(v > 3998.0)
-					v= 3998.0;					
+					v= 3998.0;
 				pack_float24(pf.data, v);
 				if(!tx_oven_req(&pf))
 					schedule_tm= -1;
@@ -813,14 +813,14 @@ int industrial_control::scheduler(void)
                 schedule_tm= -1;
                 break;
   /*==========================================================================*/
-     case 0x41:  /* команда в ТРМ: задать дифференциальную постоянную ПИД-регулятора */
+     case 0x41:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 				rs232_rx((unsigned char *)str, 256);				/*  flush rs232 rx_buffers */
                 pf.dataSize = 3; pf.hash = TPM101_KD; pf.request = 0;
-				v= 0.1 * (float)ui->Kd->value();	
+				v= 0.1 * (float)ui->Kd->value();
 				if(v < 0.1)
 					v= 0.1;
 				if(v > 3998.0)
-					v= 3998.0;				
+					v= 3998.0;
 				pack_float24(pf.data, (float) ui->Kd->value());
 				if(!tx_oven_req(&pf))
 					schedule_tm= -1;
@@ -832,7 +832,7 @@ int industrial_control::scheduler(void)
                 schedule_tm= -1;
                 break;
   /*==========================================================================*/
-     case 0x51: /* команда в ТРМ: установка выходной мощности в 0% */
+     case 0x51: /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ 0% */
 				rs232_rx((unsigned char *)str, 256);				/*  flush rs232 rx_buffers */
                 pf.dataSize= 3; pf.hash= TPM101_OUTPUT; pf.request= 0;
                 pack_float24(pf.data, 0.1);
@@ -840,24 +840,24 @@ int industrial_control::scheduler(void)
 					schedule_tm= -1;
                 break;
      case 0x52: if(!rx_oven_frame(&pf))
-					{schedule_tm= -1; break;}	 
+					{schedule_tm= -1; break;}
 				if(pf.hash != TPM101_OUT)
 					{log_oven_err(&pf);}
-                break;  
-     case 0x53:  /* команда в ТРМ: запуск автоматического регулирования */
+                break;
+     case 0x53:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 				rs232_rx((unsigned char *)str, 256);				/*  flush rs232 rx_buffers */
                 pf.dataSize= 1; pf.hash= TPM101_UP; pf.request= 0; *pf.data= ui->heater_pid->isChecked();
 				if(!tx_oven_req(&pf))
 					{schedule_tm= -1;}
                 break;
      case 0x54:if(!rx_oven_frame(&pf))
-					{schedule_tm= -1; break;}	 
+					{schedule_tm= -1; break;}
 				if(pf.hash != TPM101_UP)
 					{log_oven_err(&pf);}
 				schedule_tm= -1;
                 break;
   /*==========================================================================*/
-     case 0x61:  /* команда в ТРМ: задать значение выходной мощности */
+     case 0x61:  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 				rs232_rx((unsigned char *)str, 256);				/*  flush rs232 rx_buffers */
                 pf.dataSize= 3; pf.hash= TPM101_OUTPUT; pf.request= 0;
 				v=(ui->heater_productivity->value() > 1)? ui->heater_productivity->value() : 1;
@@ -866,7 +866,7 @@ int industrial_control::scheduler(void)
 					schedule_tm= -1;
                 break;
      case 0x62: if(!rx_oven_frame(&pf))
-					{schedule_tm= -1; break;}	 
+					{schedule_tm= -1; break;}
 				if(pf.hash != TPM101_OUTPUT)
 					{log_oven_err(&pf);}
                 schedule_tm= -1;
@@ -880,25 +880,25 @@ int industrial_control::scheduler(void)
 }
 /*===SET===========================================================================================================*/
 void industrial_control::set_enable(bool v)
-{ui->group_1->setEnabled(v); 
- ui->group_2->setEnabled(v); 
- ui->group_4->setEnabled(v);  
- ui->group_5->setEnabled(v); 
- ui->button_start->setEnabled(!v); 
- ui->button_stop->setEnabled(v); 
- ui->rs232_ch->setEnabled(!v); 
+{ui->group_1->setEnabled(v);
+ ui->group_2->setEnabled(v);
+ ui->group_4->setEnabled(v);
+ ui->group_5->setEnabled(v);
+ ui->button_start->setEnabled(!v);
+ ui->button_stop->setEnabled(v);
+ ui->rs232_ch->setEnabled(!v);
  return;
 }
 
 int industrial_control::profile0(void)
 {
     difftime=QTime::currentTime()-starttime;
-    ui->labe->setText(QString::fromLocal8Bit("Время работы: ") + difftime.toString("mm:ss"));
+    ui->labe->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: ") + difftime.toString("mm:ss"));
  return 1;
 }
 int industrial_control::profile1(void)
 {
-    ui->label->setText(QString::fromLocal8Bit("Активирован профиль: 1"));
+    ui->label->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 1"));
     ui->desired_t->setValue(ui->desired1->value());
     set_desired_t();
     time1->stop();
@@ -906,7 +906,7 @@ int industrial_control::profile1(void)
 }
 int industrial_control::profile2(void)
 {
-    ui->label->setText(QString::fromLocal8Bit("Активирован профиль: 2"));
+    ui->label->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 2"));
     ui->desired_t->setValue(ui->desired2->value());
     set_desired_t();
     time2->stop();
@@ -914,7 +914,7 @@ int industrial_control::profile2(void)
 }
 int industrial_control::profile3(void)
 {
-    ui->label->setText(QString::fromLocal8Bit("Активирован профиль: 3"));
+    ui->label->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 3"));
     ui->desired_t->setValue(ui->desired3->value());
     set_desired_t();
     time3->stop();
@@ -922,7 +922,7 @@ int industrial_control::profile3(void)
 }
 int industrial_control::profile4(void)
 {
-    ui->label->setText(QString::fromLocal8Bit("Активирован профиль: 4"));
+    ui->label->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 4"));
     ui->desired_t->setValue(ui->desired4->value());
     set_desired_t();
     time4->stop();
@@ -930,7 +930,7 @@ int industrial_control::profile4(void)
 }
 int industrial_control::profile5(void)
 {
-    ui->label->setText(QString::fromLocal8Bit("Активирован профиль: 5"));
+    ui->label->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 5"));
     ui->desired_t->setValue(ui->desired5->value());
     set_desired_t();
     time5->stop();
@@ -938,7 +938,7 @@ int industrial_control::profile5(void)
 }
 int industrial_control::profile6(void)
 {
-    ui->label->setText(QString::fromLocal8Bit("Активирован профиль: 6"));
+    ui->label->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: 6"));
     ui->desired_t->setValue(ui->desired6->value());
     set_desired_t();
     time6->stop();
@@ -947,7 +947,7 @@ int industrial_control::profile6(void)
 int industrial_control::record(void)
 {
     record_count++;
-    ui->labe_3->setText(QString::fromLocal8Bit("Кол-во записей: ")+QString::number(record_count));
+    ui->labe_3->setText(QString::fromLocal8Bit("пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: ")+QString::number(record_count));
     char stroka[256];
     QString qs;
     sprintf(stroka,"%5.1f", param);
@@ -958,7 +958,7 @@ int industrial_control::record(void)
     outfile << qs << "\n";
     if (record_count==record_max)
        {time8->stop();
-        ui->labe_3->setText(QString::fromLocal8Bit("Запись закончена"));
+        ui->labe_3->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
        }
  return 1;
 }
@@ -966,9 +966,9 @@ int industrial_control::record(void)
 /*===START==========================================================================================================*/
 int industrial_control::interface_start(void)
 {
-     qDebug() << QString::fromUtf8(QString("ывавыа").toLocal8Bit());
+     qDebug() << QString::fromUtf8(QString("пїЅпїЅпїЅпїЅпїЅпїЅ").toLocal8Bit());
      setLocale(QLocale::Russian);
-     //qDebug() << ts("лвоыалоывра");
+     //qDebug() << ts("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
     return 1; // DUMMY
     m_plotPoints.clear();
@@ -991,13 +991,13 @@ int industrial_control::interface_start(void)
 
     if ((ui->vremzap->value()!=0) && (ui->kolzap->value() !=0)) {
 
-        QString path = QFileDialog::getSaveFileName(this, QString::fromLocal8Bit("Сохранить"), home,"data file (*.txt)");
+        QString path = QFileDialog::getSaveFileName(this, QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"), home,"data file (*.txt)");
         datafile.setFileName(path);
         datafile.open(QIODevice::WriteOnly | QIODevice::Text);
         outfile.setDevice(&datafile);
 
-        outfile << QString::fromLocal8Bit("Время") << "\t";
-        outfile << QString::fromLocal8Bit("Температура") << "\n\n";
+        outfile << QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅ") << "\t";
+        outfile << QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ") << "\n\n";
 
         time8->start(ui->vremzap->value()*1000);
     }
@@ -1030,13 +1030,119 @@ int industrial_control::interface_start(void)
     time7->start(1000);
     timer_1->start(SCHEDULE_STEP);
 
-    log_add_str(QString::fromLocal8Bit("начинаем регулирование"));
+    log_add_str(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
     plot->reset_diagram();
     plot->view_desired(ui->desired_t->value());
 
     return 1;
 }
 /*===STOP===========================================================================================================*/
+
+float industrial_control::get_level(QList<QPoint> points) {
+
+    float level = 0;
+
+    for (int i = 0; i < points.count(); i++) {
+        // TODO:
+    }
+
+    // haha!!!
+    level = points[points.count() - 1].y();
+    return level;
+}
+
+QList<QPoint> industrial_control::get_extremum(QList<QPoint> points) {
+
+    QList<QPoint> extremum;
+
+    int prev_sign = get_sign(points[1].y() - points[0].y());
+    int next_sign = 0;
+
+    for (int i = 1; i < points.count() - 1; i++) {
+
+        next_sign = get_sign(points[i + 1].y() - points[i].y());
+        if (prev_sign != next_sign) {
+            extremum.append(points[i]);
+        }
+
+        prev_sign = next_sign;
+    }
+
+    return extremum;
+}
+
+float industrial_control::get_module(float value) {
+
+    if (value < 0) {
+        return -value;
+    }
+    else {
+        return value;
+    }
+}
+
+int industrial_control::get_sign(float value) {
+
+    float sign = value/value;
+
+    if (value < 0) {
+        return -sign;
+    }
+    else {
+        return sign;
+    }
+}
+
+float industrial_control::get_error(QList<QPoint> points, float level) {
+
+    qDebug() << "Level: " << level;
+    float error = 0;
+
+    for (int i = 0; i < points.count(); i++) {
+
+        float maximum = get_module(level - get_module(points[i].y()));
+        if (error < maximum) {
+            error = maximum;
+        }
+    }
+
+    return error;
+}
+
+float industrial_control::get_amplitude(QList<QPoint> points) {
+
+	if (points.count() < 2) {
+        return -1;
+    }
+
+    return (module(points[1].y() - points[0].y()))/2;
+}
+
+float industrial_control::get_period(QList<QPoint> points, float level) {
+
+    QList<QPoint> limits;
+
+    for (int i = 0; i < points.count() - 1; i++) {
+
+        float prev_value = level - points[i].y();
+        float next_value = level - points[i + 1].y();
+
+        if ((prev_value > 0) && (next_value < 0)) {
+            limits.append(points[i]);
+        }
+
+        if (limits.count() >= 2) {
+            break;
+        }
+    }
+
+    if (limits.count() < 2) {
+        return -1;
+    }
+
+    return limits[1].y() - limits[0].y();
+}
+
 void industrial_control::interface_stop(void)
 {
     float k = 0;
@@ -1049,11 +1155,16 @@ void industrial_control::interface_stop(void)
     float k_usil=0;
 
 
-    //Вывод характеристик
-    ui->lcd_cntrl_err->display(plot->get_cntrl_err());
-    ui->lcd_cntrl_up_tm->display(plot->get_cntrl_up_tm());
-    ui->lcd_signal_amplitude->display(plot->get_signal_amplitude());
-    ui->lcd_signal_period->display(plot->get_signal_period());
+    //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+
+	float desired = ui->desired_t->value();
+	QList<QPoint> extremum = get_extremum(m_plotPoints);
+	float level = get_level(m_plotPoints);
+
+    ui->lcd_cntrl_err->display(get_error(extremum, level));
+    ui->lcd_cntrl_up_tm->display(desired);
+    ui->lcd_signal_amplitude->display(get_amplitude(extremum));
+    ui->lcd_signal_period->display(get_period(m_plotPoints, level));
 
     /*for (int i = 0; i < m_plotPoints.count(); i++) {
         m_plotPoints[i].setY(m_plotPoints[i].y() - minY);
@@ -1103,12 +1214,12 @@ void industrial_control::interface_stop(void)
 
     if ((k >= 0.2) && (k < 1) ) {
 
-        //ПИ регулятор
+        //пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float k_p_pi=0;
         float k_i_pi=0;
         k_p_pi=(0.6*T)/(k_usil*t);
         k_i_pi= 0.8*t + 0.5*T;
-        //ПИД регулятор
+        //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float k_p_pid=0;
         float k_i_pid=0;
         float k_d_pid=0;
@@ -1121,12 +1232,12 @@ void industrial_control::interface_stop(void)
 
     if (k >= 1 ) {
 
-        //ПИ регулятор
+        //пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float k_p_pi=0;
         float k_i_pi=0;
         k_p_pi=(0.7*T)/(k_usil*t);
         k_i_pi= t + 0.3*T;
-        //ПИД регулятор
+        //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float k_p_pid=0;
         float k_i_pid=0;
         float k_d_pid=0;
@@ -1139,12 +1250,12 @@ void industrial_control::interface_stop(void)
 
     if (k < 0.2 ) {
 
-        //ПИ регулятор
+        //пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float k_p_pi=0;
         float k_i_pi=0;
         k_p_pi=T/(k_usil*t);
         k_i_pi= 0.8*t;
-        //ПИД регулятор
+        //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float k_p_pid=0;
         float k_i_pid=0;
         float k_d_pid=0;
@@ -1163,7 +1274,7 @@ void industrial_control::interface_stop(void)
  profile_set=0;
  record_count=0;
  if ((ui->vremzap->value()!=0)&&(ui->kolzap->value()!=0)) {datafile.close();}
- ui->label->setText(QString::fromLocal8Bit("Активный профиль"));
+ ui->label->setText(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
  timer_1->stop();
  time1->stop();
  time2->stop();
@@ -1174,7 +1285,7 @@ void industrial_control::interface_stop(void)
  time7->stop();
  time8->stop();
  rs232_release();
- log_add_str(QString::fromLocal8Bit("останавливаем регулирование"));
+ log_add_str(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
  return;
 }
 /*===QUIT===========================================================================================================*/
@@ -1188,7 +1299,7 @@ void industrial_control::resize_form( bool full_scr  )
 {int dw, dh;
  QRect scr;
  dw = width() - minimumWidth();
- dh = height() - minimumHeight(); 
+ dh = height() - minimumHeight();
  if(full_scr)
     {
      this->maximumSize().setWidth(16000);
@@ -1232,10 +1343,10 @@ void industrial_control::resize_form( bool full_scr  )
  return;
 }
 /*===RESIZE=========================================================================================================*/
-void industrial_control::resizeEvent(QResizeEvent *event) 
+void industrial_control::resizeEvent(QResizeEvent *event)
 {int dw, dh;
  dw = width() - minimumWidth();
- dh = height() - minimumHeight(); 
+ dh = height() - minimumHeight();
  if(full_screen)
 	{ui->group_5->setGeometry(0, 0, dw, dh);
      return;
@@ -1273,7 +1384,7 @@ industrial_control::industrial_control(QWidget *parent) : QMainWindow(parent), u
  rs232 = INVALID_HANDLE_VALUE;
  rs232_tx_ok= rs232_tx_err= rs232_rx_ok= rs232_rx_err= 0;
  timer_1 = new QTimer(this);
- timer_1->stop(); 
+ timer_1->stop();
 
     time1 = new QTimer(this);
     time2 = new QTimer(this);
@@ -1306,8 +1417,8 @@ industrial_control::industrial_control(QWidget *parent) : QMainWindow(parent), u
     connect(time7, SIGNAL(timeout()),this, SLOT(profile0()));
     connect(time8, SIGNAL(timeout()),this, SLOT(record()));
 
- set_enable(false); 
- 
+ set_enable(false);
+
     QVBoxLayout *l_1 = new QVBoxLayout(ui->group_5);
     plot = new DataPlot(ui->group_5);
     l_1->addWidget(plot);
@@ -1335,5 +1446,3 @@ void industrial_control::changeEvent(QEvent *e)
         break;
     }
 }
-
-

@@ -29,31 +29,31 @@
 
 /*  Initialize main window */
 DataPlot::DataPlot(QWidget *parent): QwtPlot(parent)
-{QwtPainter::setDeviceClipping(false); 
+{QwtPainter::setDeviceClipping(false);
  QFont f("MS Sans Serif");
  canvas()->setPaintAttribute(QwtPlotCanvas::PaintCached, false);
  canvas()->setPaintAttribute(QwtPlotCanvas::PaintPacked, false);
 
 #ifdef Q_WS_X11
- canvas()->setAttribute(Qt::WA_PaintOnScreen, true); 
+ canvas()->setAttribute(Qt::WA_PaintOnScreen, true);
 #endif
  alignScales();
 
  desired= accuracy= desired_min= desired_max= 0;
- w_level = new QwtPlotCurve(QString::fromLocal8Bit("уровень")); 
+ w_level = new QwtPlotCurve(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
  w_level->attach(this);
- w_level->setPen(QPen(Qt::blue));  
- w_level->setRawData(d_x, d_y, PLOT_SIZE); 
+ w_level->setPen(QPen(Qt::blue));
+ w_level->setRawData(d_x, d_y, PLOT_SIZE);
  reset_diagram();
  f.setPointSize (12);
  setAxisFont(QwtPlot::xBottom, f);
  setAxisFont(QwtPlot::yLeft, f);
- setAxisTitle(QwtPlot::xBottom, QString::fromLocal8Bit("Время,с"));
- setAxisTitle(QwtPlot::yLeft, QString::fromLocal8Bit("Температура,С")); 
+ setAxisTitle(QwtPlot::xBottom, QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅ,пїЅ"));
+ setAxisTitle(QwtPlot::yLeft, QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,пїЅ"));
 
  setAxisScale(QwtPlot::xBottom, 0, (SCHEDULE_TXCONTROL_TM * VISUAL_STEP * PLOT_SIZE)/1000);
  setAxisScale(QwtPlot::yLeft, 0, 150);
- // grid 
+ // grid
  QwtPlotGrid *grid = new QwtPlotGrid;
  const QwtScaleDiv *sdx = axisScaleDiv(xBottom);
  const QwtScaleDiv *sdy = axisScaleDiv(yLeft);
@@ -65,11 +65,11 @@ DataPlot::DataPlot(QWidget *parent): QwtPlot(parent)
  grid->setMinPen(QPen(Qt::gray,  0, Qt::DotLine));
  grid->attach(this);
 #if 1
- QwtPlotCurve *desired_w = new QwtPlotCurve(QString::fromLocal8Bit("уставка")); 
+ QwtPlotCurve *desired_w = new QwtPlotCurve(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
 
  desired_w->attach(this);
- desired_w->setPen(QPen(Qt::darkBlue));  
- desired_w->setRawData(d_x, m0, PLOT_SIZE); 
+ desired_w->setPen(QPen(Qt::darkBlue));
+ desired_w->setRawData(d_x, m0, PLOT_SIZE);
 
 #endif
 #if 0
@@ -77,20 +77,20 @@ DataPlot::DataPlot(QWidget *parent): QwtPlot(parent)
  m0 = new QwtPlotMarker();
  m1 = new QwtPlotMarker();
  m2 = new QwtPlotMarker();
- m0->setLabel(QString::fromLocal8Bit("уставка"));
+ m0->setLabel(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ"));
  m0->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
  m0->setLineStyle(QwtPlotMarker::HLine);
  m0->setLinePen(QPen(Qt::darkBlue));
  m0->setYValue(200.0);
  m0->attach(this);
- m1->setLabel(QString::fromLocal8Bit("допуск \"-\""));
+ m1->setLabel(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅ \"-\""));
  m1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
  m1->setLineStyle(QwtPlotMarker::HLine);
  m1->setLinePen(QPen(Qt::darkGreen));
  m1->setYValue(150.0);
  m1->attach(this);
  m2 = new QwtPlotMarker();
- m2->setLabel(QString::fromLocal8Bit("допуск \"+\""));
+ m2->setLabel(QString::fromLocal8Bit("пїЅпїЅпїЅпїЅпїЅпїЅ \"+\""));
  m2->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
  m2->setLineStyle(QwtPlotMarker::HLine);
  m2->setLinePen(QPen(Qt::darkGreen));
@@ -121,13 +121,13 @@ DataPlot::DataPlot(QWidget *parent): QwtPlot(parent)
 /*====================================================================================================================*/
 void DataPlot::reset_diagram(void )
 {for (int i = 0; i< PLOT_SIZE; i++)
-    {d_x[i] = (SCHEDULE_TXCONTROL_TM * VISUAL_STEP * i)/1000;    
+    {d_x[i] = (SCHEDULE_TXCONTROL_TM * VISUAL_STEP * i)/1000;
      d_y[i] = 0;
      m0[i]  = m1[i]= m2[i]= 0;
     }
  up_tm_holded=0; progress_tm= 0;
  cntrl_err= signal_amplitude= signal_period= 0;
- w_level->set_visible_size(0); 
+ w_level->set_visible_size(0);
  return;
 }
 /*====================================================================================================================*/
@@ -168,11 +168,11 @@ void DataPlot::view_wlevel_diagramm(float v, int control) /* Generate new values
  if(control && !progress_tm)
 	{for (int i = 0; i< PLOT_SIZE; i++)
 		{d_y[i] = 0;}
-	 up_tm_holded=0; 
+	 up_tm_holded=0;
 	 cntrl_err= signal_amplitude= signal_period= 0;
 	}
- d_y[progress_tm] = v;	
- if(progress_tm >= (PLOT_SIZE -1))	
+ d_y[progress_tm] = v;
+ if(progress_tm >= (PLOT_SIZE -1))
 	{for (i = 0; i < PLOT_SIZE- 1; i++ )
 		d_y[i] = d_y[i+1];
 	}
@@ -180,12 +180,12 @@ void DataPlot::view_wlevel_diagramm(float v, int control) /* Generate new values
 	progress_tm++;
  if(!control)
 	progress_tm= 0;
- w_level->set_visible_size(progress_tm); 
- replot();   
+ w_level->set_visible_size(progress_tm);
+ replot();
  mutex_0.unlock();
 }
 /*====================================================================================================================*/
-void DataPlot::view_desired(int desired_v) /* заданное значение величины */
+void DataPlot::view_desired(int desired_v) /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 {int i;
  mutex_0.lock();
  desired= desired_v;
@@ -196,21 +196,24 @@ for (i = 0; i< PLOT_SIZE; i++)
 #endif
 /* m1->setYValue((float)(desired - accuracy));
  m2->setYValue((float)(desired + accuracy));*/
- replot();   
+ replot();
  mutex_0.unlock();
 }
 /*====================================================================================================================*/
-int DataPlot::get_cntrl_up_tm(void)                   /* измеряем время выхода на уставку */
+int DataPlot::get_cntrl_up_tm(void)                   /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 {int i;
  if(!up_tm_holded)
 	for (i = 0; i < (progress_tm -1); i++)
-		{if(((int)d_y[i]) >= desired)                /* пока измеряемая величина не будет больше (уставки-допуск) */
+		{if(((int)d_y[i]) >= desired)                /* пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ) */
 			return (up_tm_holded= i);
 		}
  return up_tm_holded;
 }
+
+//
+
 /*====================================================================================================================*/
-int DataPlot::scan_extremp(int from)           		/* находим верхнюю точку экстремума  */
+int DataPlot::scan_extremp(int from)           		/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  */
 {
     int t, h;
     for (t = from; t < (progress_tm - 5); t++) {
@@ -225,11 +228,11 @@ int DataPlot::scan_extremp(int from)           		/* находим верхнюю точку экстре
     return 0;
 }
 /*====================================================================================================================*/
-int DataPlot::scan_extremn(int from)           		 							/* находим верхнюю точку экстремума  */
+int DataPlot::scan_extremn(int from)           		 							/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ  */
 {int t, h;
  for (t = from; t < (progress_tm -5); t++)
     {h= d_y[t+2];
-	 if( (d_y[t] > h) && (d_y[t+1] >= h) && (d_y[t+3] >= h) && (d_y[t+4] >= h) && (h < desired_max)) 
+	 if( (d_y[t] > h) && (d_y[t+1] >= h) && (d_y[t+3] >= h) && (d_y[t+4] >= h) && (h < desired_max))
 		{if(t < 10)
 			return 0;
 		 return (t+2);
@@ -238,7 +241,7 @@ int DataPlot::scan_extremn(int from)           		 							/* находим верхнюю точк
  return 0;
 }
 /*====================================================================================================================*/
-int DataPlot::get_signal_period(void)            /* измеряем период колебаний */
+int DataPlot::get_signal_period(void)            /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 {int i, tm;
  if(!(i= scan_extremp(0)))
 	return 0;
@@ -246,12 +249,12 @@ int DataPlot::get_signal_period(void)            /* измеряем период колебаний */
 	return 0;
  if(!(tm= scan_extremp(i+ 5)))
 	return 0;
- if((tm- i) > 5)	
+ if((tm- i) > 5)
     signal_period= tm - i;
  return signal_period;
 }
 /*====================================================================================================================*/
-int DataPlot::get_signal_amplitude(void)              /* измеряем амплитуду колебаний сигнала */
+int DataPlot::get_signal_amplitude(void)              /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 {int i, j, v;
 /* if(!(i= scan_extremp(0)))
 	return 0;*/
@@ -264,16 +267,17 @@ int DataPlot::get_signal_amplitude(void)              /* измеряем амплитуду коле
  return signal_amplitude;
 }
 /*====================================================================================================================*/
-int DataPlot::get_cntrl_err(void)           /* измеряем ошибку регулирования */
-{
+int DataPlot::get_cntrl_err(void) {          /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+
     int i, v;
 
-    if (!(i = scan_extremp(0)))
+    if (!(i = scan_extremp(0))) {
         return 0;
-	
- for (; i < (progress_tm -1); i++)  
+    }
+
+ for (; i < (progress_tm -1); i++)
     {v= ((int)d_y[i]) - desired;
-	 if(v < 0) 
+	 if(v < 0)
 		v= -v;
      if(v > cntrl_err)
         cntrl_err= v;
